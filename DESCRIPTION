@@ -1,0 +1,13 @@
+Package: ErasmusMobilityR
+Type: Package
+Title: Analiza wymian studenckich metodami Fuzzy TOPSIS i VIKOR
+Version: 0.1.0
+Authors@R: 
+    person("Nikola", "Waliczek", , "nikola.waliczek@student.uj.edu.pl", role = c("aut", "cre"))
+Description: Pakiet R do porównywania możliwości mobilności studentów w ramach programu 
+    Erasmus+ z wykorzystaniem metod Fuzzy TOPSIS, Fuzzy VIKOR oraz metarankingu.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 7.3.3
+Imports: 
