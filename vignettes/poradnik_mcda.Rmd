@@ -1,0 +1,136 @@
+---
+title: "Pełny proces analizy: Od danych do rankingu"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Pełny proces analizy: Od danych do rankingu}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+## Wprowadzenie do pakietu ErasmusMobilityR
+Pakiet ten służy do wielokryterialnej analizy (MCDA) uczelni partnerskich w programie Erasmus+. Proces opiera się na logice rozmytej (Fuzzy Logic), metodzie wag BWM oraz trzech algorytmach decyzyjnych (TOPSIS, VIKOR, WASPAS), które na końcu są agregowane do jednego, stabilnego Meta-Rankingu.
+
+Zaczynamy od załadowania pakietu:
+
+```{r setup}
+library(ErasmusMobilityR)
+```
+
+### 1. Wczytanie wbudowanych danych ankietowych
+Korzystamy z wbudowanego w pakiet zbioru danych mcda_dane_surowe. Zmienne kosztowe (np. koszty życia, odległość) zostały odwrócone na zyski (im wyższa liczba, tym lepiej dla studenta).
+
+```{r data}
+data("mcda_dane_surowe")
+head(mcda_dane_surowe)
+
+```
+
+### 2. Definicja Modelu Badawczego (Składnia)
+Grupujemy 12 pytań z ankiet w 4 główne kryteria oceny uczelni. Znak `=~` oznacza "składa się z".
+
+```{r syntax}
+skladnia_modelu_erasmus <- "
+  Finanse      =~ wysokosc_stypendium + koszty_zycia_mies;
+  Jakosc       =~ ranking_uczelni + kompatybilnosc_prog + ocena_biura_erasmus + jakosc_wykladowcow + dostepnosc_akademik;
+  Zadowolenie  =~ satysfakcja_program + spolecznosc_int;
+  Miasto       =~ odleglosc_od_macierzystej + bezpieczenstwo_miasta + atrakcyjnosc_miasta
+"
+```
+
+### 3. Przetwarzanie i Rozmywanie danych (Fuzzifier)
+Funkcja zbuduj_macierz_rozmyta automatycznie skaluje dane do przedziału 1-9 i zamienia je na liczby rozmyte (TFN).
+
+```{r fuzzify}
+rozmyta_macierz_decyzyjna <- zbuduj_macierz_rozmyta(
+  dane = mcda_dane_surowe, 
+  skladnia = skladnia_modelu_erasmus, 
+  kolumna_uczelni = "Uczelnia"
+)
+
+kierunki_erasmus <- c("max", "max", "max", "max")
+kryteria_erasmus <- c("Finanse", "Jakosc", "Zadowolenie", "Miasto")
+```
+
+### 4. Wyznaczanie wag metodą BWM (Best-Worst Method)
+Pytamy eksperta o relacje między najlepszym a najgorszym kryterium, a wbudowany Solver LP wylicza optymalne wagi minimalizując błąd logiki.
+* Najlepsze: Finanse (poz. 1)
+* Najgorsze: Miasto (poz. 4)
+
+```{r bwm}
+ankieta_best_to_others <- c(1, 2, 3, 8)
+ankieta_others_to_worst <- c(8, 4, 2, 1)
+
+wyniki_bwm <- wyznacz_wagi_kryteriow_bwm(
+  nazwy_kryteriow = kryteria_erasmus,
+  najwazniejszy_vs_reszta = ankieta_best_to_others,
+  reszta_vs_najmniej_wazny = ankieta_others_to_worst
+)
+
+print(round(wyniki_bwm$obliczone_wagi, 3))
+print(paste("Wskaźnik Spójności CR:", round(wyniki_bwm$wskaznik_spojnosci_cr, 3)))
+```
+
+### 5. Analiza decyzyjna (TOPSIS, VIKOR, WASPAS)
+Uruchamiamy metody. Pakiet automatycznie policzy wagi z parametrów BWM. Ponieważ odwróciliśmy zmienne kosztowe na etapie przygotowania danych, wszystkie kryteria mają teraz typ stymulanty (max).
+
+```{r decision analysis}
+kierunki_erasmus <- c("max", "max", "max", "max")
+
+wyniki_topsis <- wyznacz_ranking_topsis(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+wyniki_vikor <- wyznacz_ranking_vikor(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+wyniki_waspas <- wyznacz_ranking_waspas(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+knitr::kable(wyniki_waspas$ranking)
+```
+
+### 6. Wizualizacja (Mapy decyzyjne)
+Generujemy mapy strategiczne.
+
+```{r visualization, fig.width=8, fig.height=5}
+plot(wyniki_topsis)
+plot(wyniki_vikor)
+plot(wyniki_waspas)
+```
+
+### 7. Meta-ranking (Konsensus)
+Agregujemy wyniki wszystkich trzech metod, aby uzyskać ostateczną decyzję.
+
+```{r metaranking}
+meta_wynik <- wyznacz_meta_ranking_erasmus(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+knitr::kable(meta_wynik$porownanie, caption = "Ostateczny Ranking Uczelni (Konsensus z 3 metod)")
+```
+

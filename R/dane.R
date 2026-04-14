@@ -1,0 +1,27 @@
+#' dane do macierzy decyzyjnej MCDA
+#'
+#' zbiór danych zawierający symulowane odpowiedzi lub pomiary dla 5 alternatyw
+#' ocenianych w ramach 12 zmiennych reprezentujących 4 główne kryteria
+#' (Finanse, Jakość, Zadowolenie, Miasto).
+#' zbiór przeznaczony do użycia z funkcją `przygotuj_dane_mcda()`.
+#'
+#' @format Ramka danych (data frame) z 15 wierszami i 14 zmiennymi:
+#' \describe{
+#'   \item{StudentID}{Identyfikator osoby oceniającej}
+#'   \item{Uczelnia}{Uczelnia podlegająca ocenie (rozwiązanie)}
+#'   \item{wysokosc_stypendium}{Wysokość stypendium Erasmus w walucie euro (zmienna ciągła)}
+#'   \item{koszt_zycia_mies}{Miesięczny koszt utrzymania w walucie euro (zmienna ciągła)}
+#'   \item{ranking uczelni}{Ranking uczelni w międzynarodowych rankingach (1-1000)}
+#'   \item{kompatybilnosc_prog}{Kompatybilnosc programow studiow (1-5), zawiera 99 jako błąd}
+#'   \item{ocena_biura_erasmus}{Ocena biura Erasmus w skali Likerta (1-5)}
+#'   \item{jakosc_wykladowcow}{Ocena wykładowców w skali Likerta (1-5)}
+#'   \item{dostepnosc_akademik}{Dostępność akademików (0 lub 10)}
+#'   \item{satysfakcja_studenci}{Satysfakcja z programu w skali Likerta (1-10)}
+#'   \item{spolecznosc_int}{Ocena społeczności międzynarodowej na uczelni w skali Likerta(1-10)}
+#'   \item{odleglosc_od_macierzystej}{Odległość uczelni partnerskiej od macierzystej podana w kilometrach (zmienna ciągła)}
+#'   \item{bezpieczenstwo}{Ocena bezpieczeństwa miasta w skali Likerta 1-7}
+#'   \item{atrakcyjnosc}{Ocena atrakcyjności miasta w skali Likerta (1-7), zawiera braki danych NA}
+#' }
+#' @usage data(mcda_dane_surowe)
+#' @name mcda_dane_surowe
+NULL

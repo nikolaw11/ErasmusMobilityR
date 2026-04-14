@@ -1,0 +1,86 @@
+---
+output: github_document
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "man/figures/README-",
+  out.width = "100%"
+)
+```
+
+# ErasmusMobilityR
+
+**ErasmusMobilityR** to kompleksowe narzędzie analityczne przeznaczone do Wielokryterialnej Analizy
+Decyzyjnej (MCDA) w środowisku rozmytym. Pakiet został zaprojektowany z myślą o ewaluacji
+i rankingu uczelni partnerskich w ramach programu Erasmus+. 
+
+Umożliwia pełną ścieżkę badawczą: od agregacji surowych ankiet studenckich, przez wyznaczanie
+obiektywnych wag metodą **BWM (Best-Worst Method)**, aż po zaawansowane rankingi metodami
+**Fuzzy TOPSIS, Fuzzy VIKOR i Fuzzy WASPAS**, zwieńczone autorskim **Meta-Rankingiem** (Konsensusem).
+
+## Instalacja
+
+Możesz zainstalować wersję deweloperską z serwisu GitHub:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("nikolaw11/ErasmusMobilityR")
+```
+## Szybki Start
+
+Oto podstawowy przykład użycia pakietu z wykorzystaniem wbudowanych danych ankietowych.
+
+```{r example}
+library(ErasmusMobilityR)
+
+# 1. Wczytanie wbudowanych danych
+data("mcda_dane_surowe")
+
+# 2. Definicja modelu badawczego
+skladnia_modelu <- "
+  Finanse      =~ wysokosc_stypendium + koszty_zycia_mies;
+  Jakosc       =~ ranking_uczelni + kompatybilnosc_prog + ocena_biura_erasmus + jakosc_wykladowcow + dostepnosc_akademik;
+  Zadowolenie  =~ satysfakcja_program + spolecznosc_int;
+  Miasto       =~ odleglosc_od_macierzystej + bezpieczenstwo_miasta + atrakcyjnosc_miasta
+"
+
+# 3. Zbudowanie rozmytej macierzy decyzyjnej (Fuzzification)
+rozmyta_macierz <- zbuduj_macierz_rozmyta(
+  dane = mcda_dane_surowe, 
+  skladnia = skladnia_modelu, 
+  kolumna_uczelni = "Uczelnia"
+)
+
+# 4. Obliczenie ostatecznego Meta-Rankingu (uruchamia TOPSIS, VIKOR i WASPAS w tle)
+# Wagi wyliczane są tu w pełni automatycznie metodą Entropii Shannona
+wynik_konsensusu <- wyznacz_meta_ranking_erasmus(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz, 
+  kierunki_kryteriow = c("max", "max", "max", "max")
+)
+
+# 5. Wyświetlenie ostatecznych wyników
+print(wynik_konsensusu$porownanie)
+```
+
+## Wizualizacja (Mapy Strategiczne)
+
+Pakiet posiada wbudowany silnik graficzny oparty na `ggplot2`. Wywołanie standardowej funkcji `plot()` automatycznie generuje mapę decyzyjną dostosowaną do użytej metody.
+
+```{r plot, fig.width=8, fig.height=5}
+# Wyliczamy wynik pojedynczej metody, aby wygenerować jej dedykowaną mapę
+wynik_waspas <- wyznacz_ranking_waspas(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz, 
+  kierunki_kryteriow = c("max", "max", "max", "max"),
+  nazwy_kryteriow_bwm = c("Finanse", "Jakosc", "Zadowolenie", "Miasto"),
+  bwm_najlepsze = c(1, 2, 3, 8),
+  bwm_najgorsze = c(8, 4, 2, 1)
+)
+
+plot(wynik_waspas)
+```
+
+Więcej szczegółów, w tym korzystanie z zaawansowanej metody wag Best-Worst (BWM) oraz pełny Meta-Ranking, znajdziesz w samouczku pakietu (Vignette).
+
