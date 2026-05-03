@@ -107,10 +107,10 @@ wyniki_waspas <- wyznacz_ranking_waspas(
   bwm_najgorsze = ankieta_others_to_worst
 )
 
-knitr::kable(wyniki_waspas$ranking)
+knitr::kable(wyniki_topsis$ranking)
 ```
 
-### 6. Wizualizacja (Mapy decyzyjne)
+### 6. Wizualizacja (Wykresy/Mapy Strategiczne)
 Generujemy mapy strategiczne.
 
 ```{r visualization, fig.width=8, fig.height=5}

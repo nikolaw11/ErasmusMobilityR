@@ -74,7 +74,7 @@ print(wynik_konsensusu$porownanie)
 #> 5                    5              5                 5
 ```
 
-## Wizualizacja (Mapy Strategiczne)
+## Wizualizacja (Wykresy/Mapy Strategiczne)
 
 Pakiet posiada wbudowany silnik graficzny oparty na `ggplot2`. Wywołanie
 standardowej funkcji `plot()` automatycznie generuje mapę decyzyjną
@@ -82,7 +82,7 @@ dostosowaną do użytej metody.
 
 ``` r
 # Wyliczamy wynik pojedynczej metody, aby wygenerować jej dedykowaną mapę
-wynik_waspas <- wyznacz_ranking_waspas(
+wynik_topsis <- wyznacz_ranking_topsis(
   rozmyta_macierz_decyzyjna = rozmyta_macierz, 
   kierunki_kryteriow = c("max", "max", "max", "max"),
   nazwy_kryteriow_bwm = c("Finanse", "Jakosc", "Zadowolenie", "Miasto"),
@@ -91,7 +91,7 @@ wynik_waspas <- wyznacz_ranking_waspas(
 )
 #> Przetwarzanie preferencji studenta metodą BWM...
 
-plot(wynik_waspas)
+plot(wynik_topsis)
 ```
 
 <img src="man/figures/README-plot-1.png" width="100%" />

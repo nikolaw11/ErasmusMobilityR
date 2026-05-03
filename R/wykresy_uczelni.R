@@ -29,7 +29,6 @@
 #' @import ggrepel
 #' @export
 plot.vikor_erasmus_wynik <- function(x, ...) {
-  # Poprawka: Zaciągamy z naszej nowej nazwy tabeli
   df <- x$ranking
   
   # 1. Matematyka wykresu: Odwracamy S (żeby im więcej tym lepiej na osi X)

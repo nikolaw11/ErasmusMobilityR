@@ -66,7 +66,7 @@ wyznacz_wagi_kryteriow_bwm <- function(
   liczba_zmiennych_lp <- length(najwazniejszy_vs_reszta) + 1 # Liczba wag kryteriow + 1 zmienna bledu (ksi)
   indeks_bledu_ksi <- liczba_zmiennych_lp
   
-  # --- Budowanie macierzy ograniczen dla algorytmu Rglpk ---
+  # Budowanie macierzy ograniczen dla algorytmu Rglpk
   
   # Ograniczenie 1: Suma wag kryteriow musi wynosić równe 1 (100%)
   lewa_strona_suma <- c(rep(1, liczba_zmiennych_lp - 1), 0) # 0 przy ksi, bo ksi nie jest wagą
