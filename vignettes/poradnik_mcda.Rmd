@@ -24,7 +24,7 @@ library(ErasmusMobilityR)
 ```
 
 ### 1. Wczytanie wbudowanych danych ankietowych
-Korzystamy z wbudowanego w pakiet zbioru danych mcda_dane_surowe. Zmienne kosztowe (np. koszty życia, odległość) zostały odwrócone na zyski (im wyższa liczba, tym lepiej dla studenta).
+Korzystamy z wbudowanego w pakiet zbioru danych mcda_dane_surowe. Niektóre zmienne (koszty życia, odległość, ranking uczelni) zostały odwrócone na zyski. Pozwala to na zachowanie logiki - im niższe będą wartości tych zmiennych, tym lepiej dla studenta.
 
 ```{r data}
 data("mcda_dane_surowe")
@@ -45,7 +45,7 @@ skladnia_modelu_erasmus <- "
 ```
 
 ### 3. Przetwarzanie i Rozmywanie danych (Fuzzifier)
-Funkcja zbuduj_macierz_rozmyta automatycznie skaluje dane do przedziału 1-9 i zamienia je na liczby rozmyte (TFN).
+Funkcja zbuduj_macierz_rozmyta automatycznie skaluje dane do przedziału 1-9 i zamienia je na trójkątne liczby rozmyte (TFN).
 
 ```{r fuzzify}
 rozmyta_macierz_decyzyjna <- zbuduj_macierz_rozmyta(
@@ -59,7 +59,7 @@ kryteria_erasmus <- c("Finanse", "Jakosc", "Zadowolenie", "Miasto")
 ```
 
 ### 4. Wyznaczanie wag metodą BWM (Best-Worst Method)
-Pytamy eksperta o relacje między najlepszym a najgorszym kryterium, a wbudowany Solver LP wylicza optymalne wagi minimalizując błąd logiki.
+Pytamy studentów w ankietach o relacje między najlepszym a najgorszym kryterium, a wbudowany Solver LP wylicza optymalne wagi minimalizując błąd logiki.
 * Najlepsze: Finanse (poz. 1)
 * Najgorsze: Miasto (poz. 4)
 
