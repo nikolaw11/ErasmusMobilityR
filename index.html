@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nikola Waliczek | ErasmusMobilityR</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    html { scroll-behavior: smooth; }
+    .chart-box {
+      position: relative;
+      width: 100%;
+      height: 360px;
+      min-height: 300px;
+      max-height: 460px;
+    }
+    code, pre { font-variant-ligatures: none; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 selection:bg-sky-100 selection:text-sky-900">
+  <nav class="sticky top-0 z-50 border-b border-slate-200 bg-white/95 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl items-center justify-between px-4 py-3 sm:px-6 lg:px-8">
+      <div class="flex items-center gap-3">
+        <div class="flex h-9 w-9 items-center justify-center rounded bg-sky-700 font-bold text-white">ER</div>
+        <div>
+          <p class="text-sm font-bold uppercase tracking-wide text-slate-900">ErasmusMobilityR</p>
+          <p class="text-xs text-slate-500">narzędzie wspomagające studentów w wyborze uczelni w ramach programu Erasmus+</p>
+        </div>
+      </div>
+      <div class="hidden items-center gap-5 text-sm font-medium text-slate-600 md:flex">
+        <a href="#problem" class="hover:text-sky-700">Problem</a>
+        <a href="#dane" class="hover:text-sky-700">Dane</a>
+        <a href="#wyniki" class="hover:text-sky-700">Wyniki</a>
+        <a href="#odtworzenie" class="hover:text-sky-700">Odtworzenie</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+    <section id="problem" class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
+      <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 1</p>
+        <h1 class="text-3xl font-extrabold tracking-tight text-slate-950 sm:text-4xl">ErasmusMobilityR -
+          narzędzie ułatwiające studentom wybór uczelni w ramach programu Erasmus+.</h1>
+        <p class="mt-4 max-w-3xl text-lg leading-8 text-slate-600">
+          <br>
+          Wyjazd na wymianę Erasmus+ to wielka przygoda, ale sam proces wyboru uczelni 
+          często bywa dla studentów frustrujący. Niejednolitość procedur na  uczelniach 
+          i niewystarczający dostęp do informacji, a w tym również brak dostępu do opinii 
+          poprzednich uczestników wymiany, sprawia, że wielu studentów obawia się tej decyzji. 
+          <br>
+          <br>
+          <strong>Pakiet ErasmusMobilityR jest prostym narzędziem analitycznym, które może pomóc studentom 
+          podczas wyboru uczelni partnerskiej.</strong> Dzięki danym ankietowym studentów uprzednio biorących 
+          udział w programie Eramus+ zainteresowani studenci w łatwy sposób mogą samodzielnie stworzyć 
+          ranking uczelni i podjąć ostateczną decyzję.
+        </p>
+        <div class="mt-6 grid gap-3 sm:grid-cols-3">
+          <div class="rounded border border-slate-200 bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Po co?</p>
+            <p class="mt-2 text-sm text-slate-700">Pakiet ErasmusMobilityR pozwala
+              na porównanie uczelni partnerskich w ramach programu Erasmus+ według
+              4 kryteriów: finansów, jakości, zadowolenia studentów i oceny miasta.
+            </p>
+          </div>
+          <div class="rounded border border-slate-200 bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Dla kogo?</p>
+            <p class="mt-2 text-sm text-slate-700">Pakiet stworzony został z myślą o studentach
+              uczelni wyższych, którzy chcieliby wziąć udział w programie wymian studenckich
+              Erasmus+, jednak nie wiedzą, na którą uczelnię chcieliby aplikować.
+            </p>
+          </div>
+          <div class="rounded border border-slate-200 bg-slate-50 p-4">
+            <p class="text-xs font-semibold uppercase text-slate-500">Co jest rezultatem?</p>
+            <p class="mt-2 text-sm text-slate-700">Ostatecznym wynikiem jest meta-ranking uczelni
+              obliczony na podstawie metod wielokryterialnej analizy danych (MCDA).
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <aside class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <h2 class="text-lg font-bold text-slate-950">Na jakie pytania poznasz odpowiedzi:</h2>
+        <ul class="mt-4 space-y-3 text-sm leading-6 text-slate-600">
+          <li><strong class="text-slate-800">1.</strong> Czemu służy pakiet ErasmusMobilityR?</li>
+          <li><strong class="text-slate-800">2.</strong> Jak wyglądają dane wejściowe?</li>
+          <li><strong class="text-slate-800">3.</strong> Jak dane ankietowe zamieniane są na ocenę rozmytą?</li>
+          <li><strong class="text-slate-800">4.</strong> W jaki sposób ustalane są wagi kryteriów?</li>
+          <li><strong class="text-slate-800">5.</strong> Która alternatywa wygrywa i czy wynik jest stabilny?</li>
+          <li><strong class="text-slate-800">6.</strong> Jak wygląda przykładowy kod?</li>
+        </ul>
+      </aside>
+    </section>
+
+    <section id="dane" class="mt-10 grid gap-6 lg:grid-cols-2">
+      <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 2</p>
+        <h2 class="text-2xl font-bold text-slate-950">Dane wejściowe - ankiety studenckie</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-600">
+          Poniżej przedstawiono przykładowe dane wejściowe.  Docelowo dane pochodzić powinny <strong>z ankiet wypełnionych przez
+          studentów, którzy odbyli już mobilność studencką</strong> i mogą wyrazić swoją opinię na temat danej
+          uczelni partnerskiej. <strong>Alternatywy oznaczają uczelnie partnerskie programu Erasmus+.</strong> 
+          Wybrano również kilka ze szczegółowych kryteriów branych pod uwagę w pakiecie ErasmusMobilityR, 
+          <br>z których każde reprezentuje inne kryterium główne: wysokość stypendium (finanse),
+          ocena biura Erasmus (jakość), społeczność międzynarodowa (zadowolenie) i
+          atrakcyjność miasta (miasto).
+          <br><br>
+          <strong>Poniższe dane zostały wygenerowane automatycznie. Zbiór ten dostępny
+          jest w pakiecie ErasmusMobilityR.</strong>
+        </p>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full min-w-[560px] text-left text-sm">
+            <thead class="border-y border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-3">Alternatywa</th>
+                <th class="px-4 py-3">Wysokość stypendium</th>
+                <th class="px-4 py-3">Ocena biura Erasmus</th>
+                <th class="px-4 py-3">Społeczność międzynarodowa</th>
+                <th class="px-4 py-3">Atrakcyjność miasta</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-3 font-medium">Uczelnia A</td><td class="px-4 py-3">515</td><td class="px-4 py-3">1</td><td class="px-4 py-3">5</td><td class="px-4 py-3">2</td></tr>
+              <tr><td class="px-4 py-3 font-medium">Uczelnia B</td><td class="px-4 py-3">418</td><td class="px-4 py-3">4</td><td class="px-4 py-3">7</td><td class="px-4 py-3">5</td</tr>
+              <tr><td class="px-4 py-3 font-medium">Uczelnia C</td><td class="px-4 py-3">756</td><td class="px-4 py-3">4</td><td class="px-4 py-3">10</td><td class="px-4 py-3">4</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 3</p>
+        <h2 class="text-2xl font-bold text-slate-950">Rozmywanie danych</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-600">
+          Badając oceny studentów należy pamiętać o tym, że logika, którą posługują się ludzie, bliższa 
+          jest logice rozmytej (zaimplementowanej w ErasmusMobilityR) niż logice zero-jedynkowej.
+          <strong>Ocena studenta nie powinna być traktowana jako idealnie dokładna.</strong> Wobec 
+          tego, w pakiecie ErasmusMobilityR zastosowano <strong>trójkątne liczby rozmyte (TFN)</strong>, które pozwalają na 
+          wzięcie pod uwagę niepewności oceny studenta.
+          TFN wyrażane są za pomocą wzoru
+          <code class="rounded bg-slate-100 px-1 py-0.5">(l, m, u)</code>, gdzie
+          wartości oznaczają kolejno: wartość dolną, środkową i wyższą.
+        </p>
+        <div class="mt-5 rounded border border-slate-200 bg-slate-50 p-4 text-sm text-slate-700">
+          <p><strong>Proste wyjaśnienie:</strong> jeśli student dał ocenę 6 dla kryterium
+          oceny biura Erasmus, to pakiet pamięta, że realna ocena może być trochę niższa (5) albo trochę wyższa (7).</p>
+          <p class="mt-2 font-mono text-xs">TFN = (x - 1, x, x + 1), ograniczone do skali 1-9</p>
+          <p class="mt-2 font-mono text-xs">wynik ostry = (l + 4m + u) / 6</p>
+        </div>
+        <div class="chart-box mt-5">
+          <canvas id="templateFuzzyChart"></canvas>
+        </div>
+      </div>
+    </section>
+
+    <section class="mt-10 grid gap-6 lg:grid-cols-2">
+      <div class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 4</p>
+        <h2 class="text-2xl font-bold text-slate-950">Wagi kryteriów</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-600">
+          Wagi kryteriów obliczone mogą zostać na dwa sposoby: <strong>subiektywną metodą BWM</strong> (ukazaną
+          w przykładach na stronie) lub <strong>obiektywną Entropii Shannona</strong>. Główna metoda pakietu, BWM,
+          wymaga od studenta wybrania najważniejszego oraz najgorszego kryterium, a algorytm
+          automatycznie wyliczy wagę pozostałych kryteriów.
+          <br><br>
+          W przykładzie <strong>Finanse</strong> uznane zostały za najważniejsze kryterium. Na drugim miejscu 
+          znalazła się <strong>Jakość</strong>, a na trzecim <strong>Zadowolenie</strong>. 
+          Za najmniej ważne kryterium podczas wyboru uczelni partnerskiej uznane zostało <strong>Miasto</strong>.
+        </p>
+        <div class="chart-box mt-5">
+          <canvas id="templateWeightsChart"></canvas>
+        </div>
+      </div>
+
+      <div id="wyniki" class="rounded border border-slate-200 bg-white p-6 shadow-sm">
+        <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 5</p>
+        <h2 class="text-2xl font-bold text-slate-950">Meta-ranking</h2>
+        <p class="mt-3 text-sm leading-6 text-slate-600">
+          Pakiet korzysta z trzech metod: <strong>TOPSIS, VIKOR, WASPAS</strong>. Ich rankingi w postaci map
+          strategicznych widoczne są poniżej. Dodatkowo, pakiet ErasmusMobilityR tworzy
+          <br><strong>meta-ranking</strong>, agregujący te metody, który wskazuje obiektywnego 
+          zwycięzcę. <strong>Pozwoli to studentowi na kompleksową analizę
+          sytuacji decyzyjnej dotyczącej wyboru uczelni partnerskiej w ramach programu Erasmus+</strong>.
+        </p>
+        <div class="mt-5 grid gap-3 sm:grid-cols-2">
+          <div class="rounded border border-emerald-200 bg-emerald-50 p-4">
+            <p class="text-xs font-semibold uppercase text-emerald-700">Najlepsza alternatywa</p>
+            <p class="mt-2 text-2xl font-bold text-emerald-900">Uczelnia C</p>
+          </div>
+          <div class="rounded border border-sky-200 bg-sky-50 p-4">
+            <p class="text-xs font-semibold uppercase text-sky-700">Czy ranking jest stabilny?</p>
+            <p class="mt-2 text-2xl font-bold text-sky-900">Tak</p>
+          </div>
+        </div>
+        <br>
+        <div class="mt-5 overflow-x-auto">
+          <table class="w-full min-w-[560px] text-left text-sm">
+            <thead class="border-y border-slate-200 bg-slate-50 text-xs uppercase text-slate-500">
+              <tr>
+                <th class="px-4 py-3">Miejsce w Meta-rankingu</th>
+                <th class="px-4 py-3">Uczelnia partnerska</th>
+                <th class="px-4 py-3">Metoda TOPSIS</th>
+                <th class="px-4 py-3">Metoda VIKOR</th>
+                <th class="px-4 py-3">Metoda WASPAS</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr><td class="px-4 py-3 font-medium">1</td><td class="px-4 py-3">Uczelnia C</td><td class="px-4 py-3">1</td><td class="px-4 py-3">1</td><td class="px-4 py-3">1</td></tr>
+              <tr><td class="px-4 py-3 font-medium">2</td><td class="px-4 py-3">Uczelnia D</td></td><td class="px-4 py-3">2</td><td class="px-4 py-3">2</td><td class="px-4 py-3">2</td</tr>
+              <tr><td class="px-4 py-3 font-medium">3</td><td class="px-4 py-3">Uczelnia B</td><td class="px-4 py-3">3</td><td class="px-4 py-3">3</td><td class="px-4 py-3">3</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <br>
+        <div class="mt-5 rounded border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+          <p><img src="images/Rplot01.png" alt="Wykres TOPSIS"</p>
+        </div>
+        <div class="mt-5 rounded border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+          <p><img src="images/Rplot.png" alt="Wykres VIKOR"</p>
+        </div>
+        <div class="mt-5 rounded border border-slate-200 bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+          <p><img src="images/Rplot02.png" alt="Wykres WASPAS"</p>
+        </div>
+      </div>  
+    </section>
+
+    <section id="odtworzenie" class="mt-10 rounded border border-slate-200 bg-white p-6 shadow-sm">
+      <p class="mb-3 text-xs font-bold uppercase tracking-[0.18em] text-sky-700">Sekcja 6</p>
+      <h2 class="text-2xl font-bold text-slate-950">Jak odtworzyć analizę? - krok po kroku</h2>
+      <p class="mt-3 text-sm leading-6 text-slate-600">
+        Poniższa instrukcja krok po kroku przeprowadzi studentów przez pełną analizę z wykorzystaniem wbudowanego, demonstracyjnego zbioru danych.
+        <br><strong>Wymagania techniczne:</strong> Do wygodnego odtworzenia poniższego kodu zalecamy korzystanie ze środowiska <strong>RStudio</strong>.
+      </p>
+      <pre class="mt-5 overflow-x-auto rounded bg-slate-950 p-5 text-sm leading-6 text-slate-100"><code>
+# instalacja
+devtools::install_github("nikolaw11/ErasmusMobilityR")
+library(ErasmusMobilityR)
+
+# dane
+# poniżej użyty wbudowany w pakiet zbiór wygenerowanych danych
+data("mcda_dane_surowe")
+head(mcda_dane_surowe)
+
+# składnia - kryteria
+skladnia_modelu_erasmus <- "
+  Finanse      =~ wysokosc_stypendium + koszty_zycia_mies;
+  Jakosc       =~ ranking_uczelni + kompatybilnosc_prog + ocena_biura_erasmus + jakosc_wykladowcow + dostepnosc_akademik;
+  Zadowolenie  =~ satysfakcja_program + spolecznosc_int;
+  Miasto       =~ odleglosc_od_macierzystej + bezpieczenstwo_miasta + atrakcyjnosc_miasta
+"
+
+# rozmywanie
+rozmyta_macierz_decyzyjna <- zbuduj_macierz_rozmyta(
+  dane = mcda_dane_surowe, 
+  skladnia = skladnia_modelu_erasmus, 
+  kolumna_uczelni = "Uczelnia"
+)
+
+kierunki_erasmus <- c("max", "max", "max", "max")
+kryteria_erasmus <- c("Finanse", "Jakosc", "Zadowolenie", "Miasto")
+
+# metoda bwm (best-worst method)
+ankieta_best_to_others <- c(1, 2, 3, 8)
+ankieta_others_to_worst <- c(8, 4, 2, 1)
+
+wyniki_bwm <- wyznacz_wagi_kryteriow_bwm(
+  nazwy_kryteriow = kryteria_erasmus,
+  najwazniejszy_vs_reszta = ankieta_best_to_others,
+  reszta_vs_najmniej_wazny = ankieta_others_to_worst
+)
+
+print(round(wyniki_bwm$obliczone_wagi, 3))
+print(paste("Wskaźnik Spójności CR:", round(wyniki_bwm$wskaznik_spojnosci_cr, 3)))
+
+# analiza decyzyjna - przykład metody TOPSIS
+kierunki_erasmus <- c("max", "max", "max", "max")
+
+wyniki_topsis <- wyznacz_ranking_topsis(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+# wizualizacja
+plot(wyniki_topsis)
+
+# meta-ranking
+meta_wynik <- wyznacz_meta_ranking_erasmus(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+tabela_apa(meta_wynik)</code></pre>
+    </section>
+  </main>
+
+  <footer class="mt-12 border-t border-slate-200 bg-white px-4 py-8 text-center text-sm text-slate-500">
+    Nikola Waliczek 2026
+  </footer>
+
+  <script>
+    const baseGrid = { color: '#e5e7eb' };
+    new Chart(document.getElementById('templateFuzzyChart'), {
+      type: 'line',
+      data: {
+        datasets: [{
+          label: 'Przynależność',
+          data: [{x: 4, y: 0}, {x: 5, y: 0}, {x: 6, y: 1}, {x: 7, y: 0}, {x: 8, y: 0}],
+          borderColor: '#0284c7',
+          backgroundColor: 'rgba(2, 132, 199, 0.14)',
+          fill: true,
+          tension: 0,
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: {
+          x: { type: 'linear', min: 3.5, max: 8.5, grid: baseGrid, title: { display: true, text: 'Ocena' } },
+          y: { min: 0, max: 1.1, grid: baseGrid, title: { display: true, text: 'Stopień przynależności' } }
+        }
+      }
+    });
+
+    new Chart(document.getElementById('templateWeightsChart'), {
+      type: 'bar',
+      data: {
+        labels: ['Finanse', 'Jakość', 'Zadowolenie', 'Miasto'],
+        datasets: [{
+          label: 'Waga',
+          data: [0.5, 0.25, 0.125, 0.0625],
+          backgroundColor: ['#0D5373', '#1A9DCD', '#66D0F7', '#9AD7F4'],
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, grid: baseGrid }, x: { grid: { display: false } } }
+      }
+    });
+  </script>
+</body>
+</html>
