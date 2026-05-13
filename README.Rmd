@@ -17,27 +17,22 @@ knitr::opts_chunk$set(
   warning = FALSE
 )
 
-ustabilizuj_klasy_html <- function(html, prefix) {
-  klasy <- unique(unlist(regmatches(html, gregexpr("cl-[A-Za-z0-9]+", html))))
-  for (i in seq_along(klasy)) {
-    html <- gsub(klasy[[i]], sprintf("%s-%02d", prefix, i), html, fixed = TRUE)
-  }
-  html
+renderuj_tabele_github <- function(df, numer, tytul, uwaga, align = NULL) {
+  tabela <- knitr::kable(
+    df,
+    format = "pipe",
+    align = align %||% c("l", rep("r", ncol(df) - 1))
+  )
+
+  knitr::asis_output(paste0(
+    "**Tabela ", numer, ". ", tytul, "**\n\n",
+    paste(tabela, collapse = "\n"),
+    "\n\n*Uwaga. ", uwaga, "*\n"
+  ))
 }
 
-renderuj_tabele_apa <- function(x, tytul = NULL, id) {
-  tabela <- if (is.null(tytul)) {
-    tabela_apa(x)
-  } else {
-    tabela_apa(x, tytul = tytul)
-  }
-
-  html <- htmltools::renderTags(flextable::htmltools_value(tabela))$html
-  html <- ustabilizuj_klasy_html(html, paste0("apa-", id))
-
-  knitr::asis_output(
-    html
-  )
+`%||%` <- function(x, y) {
+  if (is.null(x)) y else x
 }
 ```
 
@@ -138,22 +133,87 @@ print(meta_wynik$porownanie)
 
 ## Tabele APA
 
-Tabele poniżej są tworzone funkcją `tabela_apa()` i osadzane w README jako HTML.
+Tabele poniżej są renderowane w formacie Markdown zgodnym z GitHubem. Pełne tabele
+`tabela_apa()` w formacie HTML/Word są dostępne w vignette pakietu.
 
 ```{r apa-topsis, echo = FALSE, results = "asis"}
-renderuj_tabele_apa(wyniki_topsis, id = "topsis")
+df_topsis <- wyniki_topsis$ranking
+names(df_topsis) <- c(
+  "Uczelnia Partnerska",
+  "D+",
+  "D-",
+  "CC",
+  "Pozycja"
+)
+df_topsis[, c("D+", "D-")] <- round(df_topsis[, c("D+", "D-")], 3)
+df_topsis$CC <- round(df_topsis$CC, 4)
+
+renderuj_tabele_github(
+  df_topsis,
+  numer = 1,
+  tytul = "Wyniki metody Fuzzy TOPSIS",
+  uwaga = "CC oznacza współczynnik bliskości. Im wyższa wartość, tym lepsza alternatywa."
+)
 ```
 
 ```{r apa-vikor, echo = FALSE, results = "asis"}
-renderuj_tabele_apa(wyniki_vikor, id = "vikor")
+df_vikor <- wyniki_vikor$ranking
+names(df_vikor) <- c(
+  "Uczelnia Partnerska",
+  "S",
+  "R",
+  "Q",
+  "Pozycja"
+)
+df_vikor[, c("S", "R")] <- round(df_vikor[, c("S", "R")], 3)
+df_vikor$Q <- round(df_vikor$Q, 4)
+
+renderuj_tabele_github(
+  df_vikor,
+  numer = 2,
+  tytul = "Wyniki metody Fuzzy VIKOR",
+  uwaga = "S opisuje użyteczność grupową, R indywidualny żal, a Q indeks kompromisu. Niższe Q oznacza lepszą pozycję."
+)
 ```
 
 ```{r apa-waspas, echo = FALSE, results = "asis"}
-renderuj_tabele_apa(wyniki_waspas, id = "waspas")
+df_waspas <- wyniki_waspas$ranking
+names(df_waspas) <- c(
+  "Uczelnia Partnerska",
+  "WSM",
+  "WPM",
+  "Q WASPAS",
+  "Pozycja"
+)
+df_waspas[, c("WSM", "WPM")] <- round(df_waspas[, c("WSM", "WPM")], 3)
+df_waspas$`Q WASPAS` <- round(df_waspas$`Q WASPAS`, 4)
+
+renderuj_tabele_github(
+  df_waspas,
+  numer = 3,
+  tytul = "Wyniki metody Fuzzy WASPAS",
+  uwaga = "WASPAS łączy model sumaryczny WSM i iloczynowy WPM w jeden wskaźnik użyteczności."
+)
 ```
 
 ```{r apa-meta, echo = FALSE, results = "asis"}
-renderuj_tabele_apa(meta_wynik, id = "meta")
+df_meta <- meta_wynik$porownanie
+names(df_meta) <- c(
+  "Uczelnia Partnerska",
+  "TOPSIS",
+  "VIKOR",
+  "WASPAS",
+  "Borda",
+  "Dominacja",
+  "Konsensus RA"
+)
+
+renderuj_tabele_github(
+  df_meta,
+  numer = 4,
+  tytul = "Ostateczny Meta-Ranking Uczelni",
+  uwaga = "Tabela zestawia rangi z trzech metod oraz trzy sposoby agregacji wyniku końcowego."
+)
 ```
 
 ## Wizualizacja

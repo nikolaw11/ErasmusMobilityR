@@ -75,6 +75,9 @@ rmarkdown::render(
   quiet = FALSE
 )
 
+message("Rendering index.html...")
+source(file.path("tools", "render-site.R"), local = new.env(parent = globalenv()))
+
 message("Rendering vignette preview...")
 rmarkdown::render(
   input = "vignettes/poradnik_mcda.Rmd",

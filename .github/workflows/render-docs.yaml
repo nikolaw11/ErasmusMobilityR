@@ -9,9 +9,10 @@ on:
       - "data-raw/**"
       - "vignettes/**"
       - "README.Rmd"
+      - "index.html"
       - "DESCRIPTION"
       - "tests/**"
-      - "tools/render-docs.R"
+      - "tools/**"
       - ".github/workflows/render-docs.yaml"
   pull_request:
     paths:
@@ -21,9 +22,10 @@ on:
       - "vignettes/**"
       - "README.Rmd"
       - "README.md"
+      - "index.html"
       - "DESCRIPTION"
       - "tests/**"
-      - "tools/render-docs.R"
+      - "tools/**"
       - ".github/workflows/render-docs.yaml"
   workflow_dispatch:
 
@@ -71,7 +73,7 @@ jobs:
       - name: Commit rendered documentation
         if: github.event_name == 'push'
         run: |
-          git add README.md man/figures
+          git add README.md index.html man/figures
           if git diff --cached --quiet; then
             echo "README and figures are already up to date."
           else
@@ -83,4 +85,4 @@ jobs:
 
       - name: Check rendered documentation is current
         if: github.event_name == 'pull_request'
-        run: git diff --exit-code -- README.md man/figures
+        run: git diff --exit-code -- README.md index.html man/figures

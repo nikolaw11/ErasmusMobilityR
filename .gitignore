@@ -18,3 +18,5 @@ README.html
 README_files/
 vignettes/*.html
 vignettes/*_files/
+
+/.quarto/
