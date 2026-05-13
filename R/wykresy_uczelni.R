@@ -41,8 +41,8 @@ plot.vikor_erasmus_wynik <- function(x, ...) {
   df$Rozmiar <- (q_inv + 0.1)^3 
   
   # Środki do wyznaczenia ćwiartek
-  srodek_perf <- median(df$Wydajnosc, na.rm=TRUE)
-  srodek_ryzyko <- median(df$Wskaznik_R, na.rm=TRUE)
+  srodek_perf <- stats::median(df$Wydajnosc, na.rm=TRUE)
+  srodek_ryzyko <- stats::median(df$Wskaznik_R, na.rm=TRUE)
   
   ggplot(df, aes(x = Wydajnosc, y = Wskaznik_R)) +
     # Tło dla strefy Lidera
@@ -60,7 +60,7 @@ plot.vikor_erasmus_wynik <- function(x, ...) {
     
     # Bąble (Zamiast paste0("Alt", Alternatywa) dajemy od razu naszą kolumnę Uczelnia_Partnerska)
     geom_point(aes(size = Rozmiar, fill = Wydajnosc), shape = 21, color = "black", alpha = 0.8) +
-    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.5) +
+    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.5, seed = 20260513) +
     
     scale_x_continuous(expand = expansion(mult = 0.2)) +
     
@@ -103,11 +103,14 @@ plot.topsis_erasmus_wynik <- function(x, ...) {
                size = 2.5, color = "grey30", label.size = 0, alpha = 0.7) +
     
     geom_point(aes(size = Rozmiar, fill = Wskaznik_CC), shape = 21, color = "black", alpha = 0.9) +
-    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.6) +
+    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.6, seed = 20260513) +
     
     annotate("point", x = cel_x, y = cel_y, shape=18, size=6, color="#FFD700") +
     annotate("text", x = cel_x, y = cel_y, label="UCZELNIA IDEALNA", vjust=2, size=3.5, fontface="bold") +
-    
+
+    scale_x_continuous(expand = expansion(mult = c(0.08, 0.18))) +
+    scale_y_continuous(expand = expansion(mult = c(0.25, 0.08))) +
+
     labs(
       title = "Mapa Odległości od Idealu (Fuzzy TOPSIS)",
       subtitle = "Linie przerywane pokazują geometryczną odległość od uczelni perfekcyjnej.",
@@ -135,8 +138,8 @@ plot.waspas_erasmus_wynik <- function(x, ...) {
   df$Rozmiar <- (df$Wskaznik_Q_WASPAS)^4 
   
   # Środki do wyznaczenia analitycznych ćwiartek
-  srodek_wsm <- median(df$Wynik_WSM, na.rm=TRUE)
-  srodek_wpm <- median(df$Wynik_WPM, na.rm=TRUE)
+  srodek_wsm <- stats::median(df$Wynik_WSM, na.rm=TRUE)
+  srodek_wpm <- stats::median(df$Wynik_WPM, na.rm=TRUE)
   
   ggplot(df, aes(x = Wynik_WSM, y = Wynik_WPM)) +
     # Tło dla strefy Lidera (Prawa górna ćwiartka - wysokie WSM i wysokie WPM)
@@ -149,12 +152,12 @@ plot.waspas_erasmus_wynik <- function(x, ...) {
     # Etykieta strefy
     annotate("text", x = max(df$Wynik_WSM), y = min(df$Wynik_WPM), label = "SŁABE WPM\n(Uważać na wartości skrajne)", 
              hjust=1, vjust=0, size=3, fontface="italic", color="grey40") +
-    annotate("text", x = max(df$Wynik_WSM), y = max(df$Wynik_WPM), label = "PODWÓJNA PRZEWAGA\n(Mocne WSM i WPM)", 
-             hjust=1, vjust=1, size=3, fontface="bold.italic", color="darkblue") +
+    annotate("text", x = srodek_wsm + 0.03, y = max(df$Wynik_WPM), label = "PODWÓJNA PRZEWAGA\n(Mocne WSM i WPM)",
+             hjust=0, vjust=1, size=3, fontface="bold.italic", color="darkblue") +
     
     # Bąble reprezentujące uczelnie
     geom_point(aes(size = Rozmiar, fill = Wskaznik_Q_WASPAS), shape = 21, color = "black", alpha = 0.8) +
-    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.5) +
+    geom_text_repel(aes(label = Uczelnia_Partnerska), box.padding = 0.5, seed = 20260513) +
     
     labs(
       title = "Mapa Balansu Uczelni (Fuzzy WASPAS)",

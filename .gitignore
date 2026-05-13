@@ -2,6 +2,9 @@
 .Rhistory
 .RData
 .Ruserdata
+.Rprofile
+renv/
+renv.lock
 .DS_Store
 *.tar.gz
 *.Rcheck/
@@ -9,3 +12,9 @@
 inst/doc
 /doc/
 /Meta/
+*.knit.md
+*.utf8.md
+README.html
+README_files/
+vignettes/*.html
+vignettes/*_files/

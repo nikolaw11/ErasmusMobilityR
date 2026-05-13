@@ -1,5 +1,7 @@
 ---
-output: github_document
+output:
+  github_document:
+    html_preview: false
 ---
 
 ```{r, include = FALSE}
@@ -7,80 +9,180 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  fig.width = 8,
+  fig.height = 5,
+  dpi = 150,
+  out.width = "100%",
+  message = FALSE,
+  warning = FALSE
 )
+
+ustabilizuj_klasy_html <- function(html, prefix) {
+  klasy <- unique(unlist(regmatches(html, gregexpr("cl-[A-Za-z0-9]+", html))))
+  for (i in seq_along(klasy)) {
+    html <- gsub(klasy[[i]], sprintf("%s-%02d", prefix, i), html, fixed = TRUE)
+  }
+  html
+}
+
+renderuj_tabele_apa <- function(x, tytul = NULL, id) {
+  tabela <- if (is.null(tytul)) {
+    tabela_apa(x)
+  } else {
+    tabela_apa(x, tytul = tytul)
+  }
+
+  html <- htmltools::renderTags(flextable::htmltools_value(tabela))$html
+  html <- ustabilizuj_klasy_html(html, paste0("apa-", id))
+
+  knitr::asis_output(
+    html
+  )
+}
 ```
 
 # ErasmusMobilityR
 
 **ErasmusMobilityR** to kompleksowe narzędzie analityczne przeznaczone do Wielokryterialnej Analizy
 Decyzyjnej (MCDA) w środowisku rozmytym. Pakiet został zaprojektowany z myślą o ewaluacji
-i rankingu uczelni partnerskich w ramach programu Erasmus+. 
+i rankingu uczelni partnerskich w ramach programu Erasmus+.
 
 Umożliwia pełną ścieżkę badawczą: od agregacji surowych ankiet studenckich, przez wyznaczanie
-obiektywnych wag metodą **BWM (Best-Worst Method)**, aż po zaawansowane rankingi metodami
-**Fuzzy TOPSIS, Fuzzy VIKOR i Fuzzy WASPAS**, zwieńczone autorskim **Meta-Rankingiem** (Konsensusem).
+wag metodą **BWM (Best-Worst Method)**, aż po zaawansowane rankingi metodami
+**Fuzzy TOPSIS, Fuzzy VIKOR i Fuzzy WASPAS**, zwieńczone autorskim **Meta-Rankingiem**.
 
 ## Instalacja
 
-Możesz zainstalować wersję deweloperską z serwisu GitHub:
+Najwygodniej zainstalować wersję deweloperską razem z zależnościami potrzebnymi do poradnika
+i renderowania tabel:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("nikolaw11/ErasmusMobilityR")
+install.packages("remotes")
+
+remotes::install_github(
+  "nikolaw11/ErasmusMobilityR",
+  dependencies = TRUE,
+  build_vignettes = TRUE
+)
 ```
-## Szybki Start
 
-Oto podstawowy przykład użycia pakietu z wykorzystaniem wbudowanych danych ankietowych.
+Po instalacji pełny poradnik można otworzyć poleceniem:
 
-```{r example}
+``` r
+browseVignettes("ErasmusMobilityR")
+vignette("poradnik_mcda", package = "ErasmusMobilityR")
+```
+
+## Szybki start
+
+Poniższy przykład jest renderowany automatycznie z `README.Rmd`, dlatego tabele i wykresy
+w README na GitHubie są aktualizowane razem z kodem pakietu.
+
+```{r workflow}
 library(ErasmusMobilityR)
 
-# 1. Wczytanie wbudowanych danych
 data("mcda_dane_surowe")
 
-# 2. Definicja modelu badawczego
-skladnia_modelu <- "
+skladnia_modelu_erasmus <- "
   Finanse      =~ wysokosc_stypendium + koszty_zycia_mies;
   Jakosc       =~ ranking_uczelni + kompatybilnosc_prog + ocena_biura_erasmus + jakosc_wykladowcow + dostepnosc_akademik;
   Zadowolenie  =~ satysfakcja_program + spolecznosc_int;
   Miasto       =~ odleglosc_od_macierzystej + bezpieczenstwo_miasta + atrakcyjnosc_miasta
 "
 
-# 3. Zbudowanie rozmytej macierzy decyzyjnej (Fuzzification)
 rozmyta_macierz <- zbuduj_macierz_rozmyta(
-  dane = mcda_dane_surowe, 
-  skladnia = skladnia_modelu, 
+  dane = mcda_dane_surowe,
+  skladnia = skladnia_modelu_erasmus,
   kolumna_uczelni = "Uczelnia"
 )
 
-# 4. Obliczenie ostatecznego Meta-Rankingu (uruchamia TOPSIS, VIKOR i WASPAS w tle)
-# Wagi wyliczane są tu w pełni automatycznie metodą Entropii Shannona
-wynik_konsensusu <- wyznacz_meta_ranking_erasmus(
-  rozmyta_macierz_decyzyjna = rozmyta_macierz, 
-  kierunki_kryteriow = c("max", "max", "max", "max")
+kryteria_erasmus <- c("Finanse", "Jakosc", "Zadowolenie", "Miasto")
+kierunki_erasmus <- rep("max", length(kryteria_erasmus))
+ankieta_best_to_others <- c(1, 2, 3, 8)
+ankieta_others_to_worst <- c(8, 4, 2, 1)
+
+wyniki_topsis <- wyznacz_ranking_topsis(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
 )
 
-# 5. Wyświetlenie ostatecznych wyników
-print(wynik_konsensusu$porownanie)
-```
-
-## Wizualizacja (Wykresy/Mapy Strategiczne)
-
-Pakiet posiada wbudowany silnik graficzny oparty na `ggplot2`. Wywołanie standardowej funkcji `plot()` automatycznie generuje mapę decyzyjną dostosowaną do użytej metody.
-
-```{r plot, fig.width=8, fig.height=5}
-# Wyliczamy wynik pojedynczej metody, aby wygenerować jej dedykowaną mapę
-wynik_topsis <- wyznacz_ranking_topsis(
-  rozmyta_macierz_decyzyjna = rozmyta_macierz, 
-  kierunki_kryteriow = c("max", "max", "max", "max"),
-  nazwy_kryteriow_bwm = c("Finanse", "Jakosc", "Zadowolenie", "Miasto"),
-  bwm_najlepsze = c(1, 2, 3, 8),
-  bwm_najgorsze = c(8, 4, 2, 1)
+wyniki_vikor <- wyznacz_ranking_vikor(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
 )
 
-plot(wynik_topsis)
+wyniki_waspas <- wyznacz_ranking_waspas(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+meta_wynik <- wyznacz_meta_ranking_erasmus(
+  rozmyta_macierz_decyzyjna = rozmyta_macierz,
+  kierunki_kryteriow = kierunki_erasmus,
+  nazwy_kryteriow_bwm = kryteria_erasmus,
+  bwm_najlepsze = ankieta_best_to_others,
+  bwm_najgorsze = ankieta_others_to_worst
+)
+
+print(meta_wynik$porownanie)
 ```
 
-Więcej szczegółów, w tym korzystanie z zaawansowanej metody wag Best-Worst (BWM) oraz pełny Meta-Ranking, znajdziesz w samouczku pakietu (Vignette).
+## Tabele APA
 
+Tabele poniżej są tworzone funkcją `tabela_apa()` i osadzane w README jako HTML.
+
+```{r apa-topsis, echo = FALSE, results = "asis"}
+renderuj_tabele_apa(wyniki_topsis, id = "topsis")
+```
+
+```{r apa-vikor, echo = FALSE, results = "asis"}
+renderuj_tabele_apa(wyniki_vikor, id = "vikor")
+```
+
+```{r apa-waspas, echo = FALSE, results = "asis"}
+renderuj_tabele_apa(wyniki_waspas, id = "waspas")
+```
+
+```{r apa-meta, echo = FALSE, results = "asis"}
+renderuj_tabele_apa(meta_wynik, id = "meta")
+```
+
+## Wizualizacja
+
+Wykresy są generowane podczas renderowania README, więc pliki PNG w `man/figures/`
+nie wymagają ręcznego odświeżania.
+
+```{r plot-topsis, echo = FALSE}
+set.seed(20260513)
+plot(wyniki_topsis)
+```
+
+```{r plot-vikor, echo = FALSE}
+set.seed(20260513)
+plot(wyniki_vikor)
+```
+
+```{r plot-waspas, echo = FALSE}
+set.seed(20260513)
+plot(wyniki_waspas)
+```
+
+## Synchronizacja dokumentacji
+
+Lokalnie README i vignette można odtworzyć jednym poleceniem:
+
+``` bash
+Rscript tools/render-docs.R
+```
+
+Ten sam krok działa w GitHub Actions. Workflow renderuje `README.Rmd`, buduje vignette
+oraz sprawdza, czy `README.md` i pliki `man/figures/README-*.png` są zsynchronizowane.

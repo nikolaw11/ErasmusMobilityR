@@ -1,7 +1,7 @@
 Package: ErasmusMobilityR
 Type: Package
 Title: Pakiet R do analizy wymian studenckich metodami Fuzzy TOPSIS i VIKOR
-Version: 0.1.0
+Version: 0.7.0
 Author: Nikola Waliczek <nikola.waliczek@student.uj.edu.pl>
 Maintainer: Nikola Waliczek <nikola.waliczek@student.uj.edu.pl>
 Description: Pakiet R do porównywania możliwości mobilności studentów w ramach programu 
@@ -23,8 +23,11 @@ Imports:
     Rglpk,
     stats
 Suggests:
+    htmltools,
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat (>= 3.0.0)
 VignetteBuilder: knitr
 Depends: 
     R (>= 3.5.0)
+Config/testthat/edition: 3

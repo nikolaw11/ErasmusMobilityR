@@ -3,6 +3,8 @@
 ^data-raw$
 ^README\.Rmd$
 ^\.gitignore$
+^\.github$
+^tools$
 ^LICENSE\.md$
 ^doc$
 ^Meta$
