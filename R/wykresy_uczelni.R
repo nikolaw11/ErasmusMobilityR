@@ -109,7 +109,7 @@ plot.topsis_erasmus_wynik <- function(x, ...) {
     annotate("text", x = cel_x, y = cel_y, label="UCZELNIA IDEALNA", vjust=2, size=3.5, fontface="bold") +
     
     labs(
-      title = "Mapa Odległości od Idealu (Fuzzy TOPSIS)",
+      title = "Mapa Odległości od Ideału (Fuzzy TOPSIS)",
       subtitle = "Linie przerywane pokazują geometryczną odległość od uczelni perfekcyjnej.",
       x = "Dystans od Uczelni Najgorszej (D-)",
       y = "Dystans do Uczelni Wzorcowej (D+)",
