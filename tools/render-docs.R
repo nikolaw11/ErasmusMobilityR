@@ -1,20 +1,17 @@
 #!/usr/bin/env Rscript
 
-args <- commandArgs(trailingOnly = FALSE)
-file_arg <- "--file="
-script_arg <- args[startsWith(args, file_arg)]
+old_wd <- getwd()
 
-root <- if (length(script_arg) > 0) {
-  normalizePath(file.path(dirname(sub(file_arg, "", script_arg[[1]])), ".."), winslash = "/")
-} else {
-  normalizePath(getwd(), winslash = "/")
+if (basename(old_wd) == "tools") {
+  setwd("..")
+}
+root <- getwd()
+
+if (!file.exists("DESCRIPTION")) {
+  stop("Błąd: Nie znaleziono pliku DESCRIPTION.", call. = FALSE)
 }
 
-if (!file.exists(file.path(root, "DESCRIPTION"))) {
-  stop("Run this script from the package root or via tools/render-docs.R.", call. = FALSE)
-}
-
-old_wd <- setwd(root)
+message("Katalog roboczy ustawiony na: ", root)
 on.exit(setwd(old_wd), add = TRUE)
 
 require_package <- function(package) {

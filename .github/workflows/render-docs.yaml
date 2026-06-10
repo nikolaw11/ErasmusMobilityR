@@ -67,8 +67,9 @@ jobs:
         shell: Rscript {0}
 
       - name: Render README and vignette
-        run: source("tools/render-docs.R")
-        shell: Rscript {0}
+        working-directory: ${{ github.workspace }}
+        run: Rscript tools/render-docs.R
+        shell: bash
 
       - name: Commit rendered documentation
         if: github.event_name == 'push'
