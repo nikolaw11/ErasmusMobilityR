@@ -23,8 +23,24 @@ Zaczynamy od załadowania pakietu:
 library(ErasmusMobilityR)
 ```
 
+### Instalacja z poradnikiem
+Jeśli pakiet instalowany jest z GitHuba, warto od razu zainstalować zależności sugerowane i zbudować vignette. Dzięki temu po instalacji dostępny będzie ten poradnik oraz wszystkie przykłady z tabelami HTML.
+
+```{r install, eval=FALSE}
+install.packages("remotes")
+
+remotes::install_github(
+  "nikolaw11/ErasmusMobilityR",
+  dependencies = TRUE,
+  build_vignettes = TRUE
+)
+
+browseVignettes("ErasmusMobilityR")
+vignette("poradnik_mcda", package = "ErasmusMobilityR")
+```
+
 ### 1. Wczytanie wbudowanych danych ankietowych
-Korzystamy z wbudowanego w pakiet zbioru danych mcda_dane_surowe. Niektóre zmienne (koszty życia, odległość, ranking uczelni) zostały odwrócone na zyski. Pozwala to na zachowanie logiki - im niższe będą wartości tych zmiennych, tym lepiej dla studenta.
+Korzystamy z wbudowanego w pakiet zbioru danych mcda_dane_surowe. Zmienne faktualne, takie jak koszty życia, odległość i ranking uczelni, są zapisane jako skale korzyściowe 1-9. Pozwala to zachować jednolitą logikę interpretacji: im wyższa wartość, tym korzystniej dla studenta.
 
 ```{r data}
 data("mcda_dane_surowe")
@@ -78,11 +94,9 @@ print(paste("Wskaźnik Spójności CR:", round(wyniki_bwm$wskaznik_spojnosci_cr,
 ```
 
 ### 5. Analiza decyzyjna (TOPSIS, VIKOR, WASPAS)
-Uruchamiamy metody. Pakiet automatycznie policzy wagi z parametrów BWM. Ponieważ odwróciliśmy zmienne kosztowe na etapie przygotowania danych, wszystkie kryteria mają teraz typ stymulanty (max).
+Uruchamiamy metody. Pakiet automatycznie policzy wagi z parametrów BWM. Ponieważ zmienne kosztowe, rankingowe i odległościowe są już zapisane jako skale korzyściowe, wszystkie kryteria mają typ stymulanty (max).
 
-```{r decision analysis}
-kierunki_erasmus <- c("max", "max", "max", "max")
-
+```{r decision-analysis, message = FALSE}
 wyniki_topsis <- wyznacz_ranking_topsis(
   rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
   kierunki_kryteriow = kierunki_erasmus,
@@ -107,7 +121,9 @@ wyniki_waspas <- wyznacz_ranking_waspas(
   bwm_najgorsze = ankieta_others_to_worst
 )
 
-knitr::kable(wyniki_topsis$ranking)
+tabela_apa(wyniki_topsis)
+tabela_apa(wyniki_vikor)
+tabela_apa(wyniki_waspas)
 ```
 
 ### 6. Wizualizacja (Wykresy/Mapy Strategiczne)
@@ -131,6 +147,15 @@ meta_wynik <- wyznacz_meta_ranking_erasmus(
   bwm_najgorsze = ankieta_others_to_worst
 )
 
-knitr::kable(meta_wynik$porownanie, caption = "Ostateczny Ranking Uczelni (Konsensus z 3 metod)")
+tabela_apa(meta_wynik)
+```
+
+### 8. Testowanie po regeneracji danych
+Po zmianie założeń generatora lub podmianie wektorów danych faktualnych warto odtworzyć zbiór, uruchomić testy pakietu i odświeżyć dokumentację. Runner testowy sprawdza strukturę `mcda_dane_surowe` oraz cały przepływ: budowę macierzy rozmytej, wagi, TOPSIS, VIKOR, WASPAS i meta-ranking.
+
+```{bash eval=FALSE}
+Rscript data-raw/generowanie_danych.R
+Rscript data-raw/testowanie_paczki.R
+Rscript tools/render-docs.R
 ```
 

@@ -14,7 +14,7 @@ wyznacz_ranking_topsis(
 )
 }
 \arguments{
-\item{rozmyta_macierz_decyzyjna}{Macierz ($m \times 3n$).}
+\item{rozmyta_macierz_decyzyjna}{Macierz m x 3n.}
 
 \item{kierunki_kryteriow}{Wektor znakowy ("max" dla kryteriów pozytywnych np. stypendium, "min" dla negatywnych np. koszty).}
 

@@ -88,7 +88,7 @@
 #' @param kolumna_uczelni Nazwa kolumny identyfikującej alternatywy.
 #'        Jeśli NULL, każdy wiersz traktowany jest jako osobna alternatywa.
 #' @param agregacja_studenci Funkcja używana do scalania opinii studentów (domyślnie: mean).
-#' @return Macierz o wymiarach ($m \times 3n$), gdzie m to liczba uczelni.
+#' @return Macierz o wymiarach m x 3n, gdzie m to liczba uczelni.
 #' @export
 zbuduj_macierz_rozmyta <- function(
     dane, 
@@ -133,7 +133,7 @@ zbuduj_macierz_rozmyta <- function(
     tymczasowe_wyniki$ID_Uczelnie <- dane[[kolumna_uczelni]]
     
     # Agregacja wg ID Alternatywy (np. srednia z ocen 5 studentow dla danej uczelni)
-    dane_zagregowane <- aggregate(
+    dane_zagregowane <- stats::aggregate(
       . ~ ID_Uczelnie, 
       data = tymczasowe_wyniki[, -1], 
       FUN = agregacja_studenci

@@ -15,7 +15,7 @@ wyznacz_ranking_vikor(
 )
 }
 \arguments{
-\item{rozmyta_macierz_decyzyjna}{Macierz ($m \times 3n$) wygenerowana ze wskaźników uczelni.}
+\item{rozmyta_macierz_decyzyjna}{Macierz m x 3n wygenerowana ze wskaźników uczelni.}
 
 \item{kierunki_kryteriow}{Wektor znakowy ("max" dla kryteriów pozytywnych, "min" dla negatywnych).}
 

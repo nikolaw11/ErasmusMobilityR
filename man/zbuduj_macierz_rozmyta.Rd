@@ -23,7 +23,7 @@ Jeśli NULL, każdy wiersz traktowany jest jako osobna alternatywa.}
 \item{agregacja_studenci}{Funkcja używana do scalania opinii studentów (domyślnie: mean).}
 }
 \value{
-Macierz o wymiarach ($m \times 3n$), gdzie m to liczba uczelni.
+Macierz o wymiarach m x 3n, gdzie m to liczba uczelni.
 }
 \description{
 Funkcja przekształca surowe dane ankietowe w rozmytą macierz decyzyjną.

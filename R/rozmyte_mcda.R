@@ -115,7 +115,7 @@ wyznacz_wagi_obiektywne_entropia <- function(rozmyta_macierz_decyzyjna) {
 #' Oblicza odległość każdej badanej uczelni od wyidealizowanego rozwiązania perfekcyjnego (FPIS)
 #' oraz najgorszego rozwiązania anty-idealnego (FNIS).
 #'
-#' @param rozmyta_macierz_decyzyjna Macierz ($m \times 3n$).
+#' @param rozmyta_macierz_decyzyjna Macierz m x 3n.
 #' @param kierunki_kryteriow Wektor znakowy ("max" dla kryteriów pozytywnych np. stypendium, "min" dla negatywnych np. koszty).
 #' @param wagi_odgorne (Opcjonalnie) Gotowy wektor wag dla kryteriów (np. z metody Entropii).
 #' @param nazwy_kryteriow_bwm (Opcjonalnie) Nazwy kryteriów do dynamicznego wyliczenia wag z ankiet BWM.
@@ -233,7 +233,7 @@ wyznacz_ranking_topsis <- function(
 #' @description Implementacja kompromisowej metody Fuzzy VIKOR. Oblicza wskaźniki S (maksymalna użyteczność grupowa),
 #' R (indywidualny żal decydenta) oraz Q (ostateczny indeks kompromisu) dla uczelni partnerskich.
 #'
-#' @param rozmyta_macierz_decyzyjna Macierz ($m \times 3n$) wygenerowana ze wskaźników uczelni.
+#' @param rozmyta_macierz_decyzyjna Macierz m x 3n wygenerowana ze wskaźników uczelni.
 #' @param kierunki_kryteriow Wektor znakowy ("max" dla kryteriów pozytywnych, "min" dla negatywnych).
 #' @param wspolczynnik_kompromisu_v Waga strategii "większości kryteriów" (domyślnie 0.5 oznacza równowagę).
 #' @param wagi_odgorne (Opcjonalnie) Gotowy wektor wag dla kryteriów.
@@ -367,7 +367,7 @@ wyznacz_ranking_vikor <- function(
 #' oraz multiplikatywne (Iloczyn Ważony - WPM), co znacznie zwiększa dokładność 
 #' i stabilność ostatecznego rankingu.
 #'
-#' @param rozmyta_macierz_decyzyjna Macierz ($m \times 3n$) wygenerowana ze wskaźników uczelni.
+#' @param rozmyta_macierz_decyzyjna Macierz m x 3n wygenerowana ze wskaźników uczelni.
 #' @param kierunki_kryteriow Wektor znakowy ("max" dla kryteriów pozytywnych, "min" dla negatywnych).
 #' @param wspolczynnik_lambda Parametr równowagi między WSM a WPM (domyślnie 0.5 oznacza równy wpływ).
 #' @param wagi_odgorne (Opcjonalnie) Gotowy wektor wag dla kryteriów.
