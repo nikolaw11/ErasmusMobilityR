@@ -172,11 +172,11 @@ wyniku końcowego.*
 Wykresy są generowane podczas renderowania README, więc pliki PNG w
 `man/figures/` nie wymagają ręcznego odświeżania.
 
-<img src="man/figures/README-plot-topsis-1.png" width="100%" />
+<img src="man/figures/README-plot-topsis-1.png" alt="" width="100%" />
 
-<img src="man/figures/README-plot-vikor-1.png" width="100%" />
+<img src="man/figures/README-plot-vikor-1.png" alt="" width="100%" />
 
-<img src="man/figures/README-plot-waspas-1.png" width="100%" />
+<img src="man/figures/README-plot-waspas-1.png" alt="" width="100%" />
 
 ## Synchronizacja dokumentacji
 

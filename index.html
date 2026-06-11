@@ -26,6 +26,7 @@
       <div class="hidden items-center gap-5 text-sm font-medium text-zinc-300 md:flex">
         <a href="#problem" class="hover:text-cyan-200">Problem</a>
         <a href="#dane" class="hover:text-cyan-200">Dane</a>
+        <a href="#logika" class="hover:text-cyan-200">Logika</a>
         <a href="#wyniki" class="hover:text-cyan-200">Wyniki</a>
         <a href="#odtworzenie" class="hover:text-cyan-200">Odtworzenie</a>
       </div>
@@ -38,7 +39,12 @@
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Prezentacja pakietu</p>
         <h1 class="max-w-4xl text-4xl font-black tracking-tight text-white sm:text-5xl">ErasmusMobilityR</h1>
         <p class="mt-4 max-w-3xl text-lg leading-8 text-zinc-300">
-          Narzędzie do wielokryterialnej analizy uczelni partnerskich Erasmus+. Pakiet prowadzi od danych ankietowych przez rozmywanie ocen, wagi BWM oraz rankingi Fuzzy TOPSIS, VIKOR i WASPAS do końcowego meta-rankingu.
+          Wyjazd na wymianę Erasmus+ to wielka przygoda, ale sam proces wyboru uczelni często 
+          bywa dla studentów frustrujący. W procesie tym pomóc studentom może pakiet 
+          ErasmusMobilityR, który jest prostym narzędziem analitycznym do wielokryterialnej 
+          analizy uczelni partnerskich Erasmus+. Pakiet ten prowadzi od danych ankietowych przez 
+          rozmywanie ocen, wagi BWM oraz rankingi Fuzzy TOPSIS, VIKOR i WASPAS aż do końcowego 
+          metarankingu.           
         </p>
         <div class="mt-6 grid gap-3 sm:grid-cols-3">
           <div class="rounded border border-zinc-800 bg-black p-4">
@@ -60,75 +66,161 @@
         <h2 class="text-lg font-bold text-white">Szybki odczyt wyniku</h2>
         <dl class="mt-5 space-y-4">
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Najlepsza alternatywa</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Najlepsza alternatywa</dt>
             <dd class="mt-1 text-3xl font-black text-cyan-200">Universidade do Porto</dd>
           </div>
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Stabilność rankingu</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Alternatywa najmniej rekomendowana</dt>
+            <dd class="mt-1 text-3xl font-black text-red-400">Universidad Carlos III de Madrid</dd>
+          </div>
+          <div>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Stabilność rankingu</dt>
             <dd class="mt-1 text-3xl font-black text-lime-200">Do sprawdzenia</dd>
             <dd class="mt-1 text-sm text-zinc-400">minimalna korelacja Spearmana: 0.60</dd>
           </div>
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Źródło</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Źródło</dt>
             <dd class="mt-1 text-sm leading-6 text-zinc-300">Wyniki są liczone podczas renderowania strony przez <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">tools/render-docs.R</code>.</dd>
           </div>
         </dl>
       </aside>
     </section>
 
-    <section id="dane" class="mt-8 grid gap-6 lg:grid-cols-2">
+    <section id="dane" class="mt-8">
       <div class="rounded border border-zinc-800 bg-zinc-950 p-6">
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Dane</p>
         <h2 class="text-2xl font-bold text-white">Przykładowe dane wejściowe</h2>
-        <p class="mt-3 text-sm leading-6 text-zinc-300">Tabela jest generowana z aktualnego zbioru <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">mcda_dane_surowe</code>.</p>
+        <p class="mt-3 text-sm leading-6 text-zinc-300">
+          Poniżej przedstawiono przykładowe dane wejściowe. Docelowo dane pochodzić powinny z ankiet 
+          wypełnionych przez studentów, którzy odbyli już mobilność studencką i mogą wyrazić swoją 
+          opinię na temat danej uczelni partnerskiej. Alternatywy oznaczają uczelnie partnerskie 
+          programu Erasmus+. Wybrano również kilka ze szczegółowych kryteriów branych pod uwagę
+          w pakiecie ErasmusMobilityR, z których każde reprezentuje inne kryterium główne: 
+          wysokość stypendium (finanse), miesięczne koszty życia (finanse), 
+          ocena biura Erasmus (jakość), dostępność akademików (jakość), 
+          społeczność międzynarodowa (zadowolenie) i atrakcyjność miasta (miasto).
+          <br><br>Tabela jest generowana z aktualnego zbioru 
+        <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">mcda_dane_surowe</code>.</p>
         <div class="mt-5"><div class="overflow-x-auto rounded border border-zinc-800 bg-zinc-950/60"><table class="w-full min-w-[640px] border-collapse"><thead class="bg-zinc-900/90"><tr><th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Uczelnia</th>
 <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Stypendium</th>
+<th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Koszty życia</th>
 <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Biuro Erasmus</th>
+<th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Dostępność akademików</th>
 <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Społeczność</th>
 <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Miasto</th></tr></thead><tbody><tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Hacettepe University</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">612</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">9</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">3</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">10</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">7</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 4</td></tr>
 <tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Hacettepe University</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">554</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">9</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">10</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">7</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">NA</td></tr>
 <tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Hacettepe University</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">687</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">9</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">3</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">10</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 5</td></tr>
 <tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Humboldt Universität zu Berlin</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">695</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">1</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 0</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">8</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 4</td></tr>
 <tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Humboldt Universität zu Berlin</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">639</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">1</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 0</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">8</td>
-<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 5</td></tr></tbody></table></div></div>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 5</td></tr>
+<tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Humboldt Universität zu Berlin</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">611</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">1</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">10</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">9</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 5</td></tr>
+<tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Sapienza - Università di Roma</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">642</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">3</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 0</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">7</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 5</td></tr>
+<tr class="hover:bg-white/[0.04]"><td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">Sapienza - Università di Roma</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">681</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">4</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">10</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">7</td>
+<td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100"> 4</td></tr></tbody></table></div></div>
       </div>
+    </section>
 
+    <section id="logika" class="mt-8 grid gap-6 lg:grid-cols-2">
       <div class="rounded border border-zinc-800 bg-zinc-950 p-6">
         <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-lime-300">Wagi</p>
         <h2 class="text-2xl font-bold text-white">Priorytety BWM</h2>
-        <p class="mt-3 text-sm leading-6 text-zinc-300">Wagi kryteriów są liczone z tych samych wektorów preferencji, których używa poradnik.</p>
+        <p class="mt-3 text-sm leading-6 text-zinc-300">
+          Wagi kryteriów obliczone mogą zostać na dwa sposoby: subiektywną metodą BWM 
+          (ukazaną w przykładach na stronie) lub obiektywną Entropii Shannona. Główna metoda 
+          pakietu, BWM, wymaga od studenta wybrania najważniejszego oraz najgorszego kryterium, 
+          a algorytm automatycznie wyliczy wagę pozostałych kryteriów.
+          <br><br>
+          Wagi kryteriów są liczone z tych samych wektorów preferencji, których używa poradnik. 
+          W przykładzie finanse uznane zostały za najważniejsze kryterium. Na drugim miejscu 
+          znalazła się jakość, a na trzecim zadowolenie. Za najmniej ważne kryterium podczas 
+          wyboru uczelni partnerskiej uznane zostało miasto.
+        </p>
         <div class="chart-box mt-5">
           <canvas id="weightsChart"></canvas>
         </div>
       </div>
+      
+      <div class="rounded border border-zinc-800 bg-zinc-950 p-6">
+          <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Logika rozmyta</p>
+          <h2 class="text-2xl font-bold text-white">Rozmywanie danych</h2>
+          <p class="mt-3 text-sm leading-6 text-zinc-300">
+            Badając oceny studentów należy pamiętać o tym, że logika, którą posługują się ludzie, bliższa 
+            jest logice rozmytej (zaimplementowanej w ErasmusMobilityR) niż logice zero-jedynkowej.
+            Ocena studenta nie powinna być traktowana jako idealnie dokładna. Wobec 
+            tego, w pakiecie ErasmusMobilityR zastosowano trójkątne liczby rozmyte (TFN), które pozwalają na 
+            wzięcie pod uwagę niepewności oceny studenta.
+            TFN wyrażane są za pomocą wzoru <code class="rounded bg-zinc-900 px-1 py-0.5 text-cyan-200">(l, m, u)</code>, gdzie 
+            wartości oznaczają kolejno: wartość dolną, środkową i wyższą.
+          </p>
+          <div class="mt-4 rounded border border-zinc-800 bg-black/50 p-4 text-sm text-zinc-300">
+            <p><strong class="text-white">Proste wyjaśnienie:</strong> jeśli student dał ocenę 6 dla kryterium oceny biura Erasmus, to pakiet pamięta, że realna ocena może być trochę niższa (5) albo trochę wyższa (7).</p>
+            <p class="mt-2 font-mono text-xs text-zinc-400">TFN = (x - 1, x, x + 1), ograniczone do skali 1-9</p>
+            <p class="mt-1 font-mono text-xs text-zinc-400">wynik ostry = (l + 4m + u) / 6</p>
+          </div>
+          <div class="chart-box mt-5" style="height: 180px; min-height: 180px;">
+            <canvas id="fuzzyChart"></canvas>
+          </div>
+        </div>
     </section>
 
     <section id="wyniki" class="mt-8 rounded border border-zinc-800 bg-zinc-950 p-6">
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-300">Wyniki</p>
-          <h2 class="text-2xl font-bold text-white">Aktualny meta-ranking</h2>
+          <h2 class="text-2xl font-bold text-white">Aktualny metaranking</h2>
         </div>
-        <p class="max-w-2xl text-sm leading-6 text-zinc-400">Tabela poniżej jest generowana z obiektu <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">meta_wynik$porownanie</code>, więc aktualizuje się razem z README i vignette.</p>
+        <p class="max-w-2xl text-sm leading-6 text-zinc-400">Tabela poniżej jest generowana z 
+          obiektu <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">
+          meta_wynik$porownanie</code>, więc aktualizuje się razem z README i vignette. Przedstawia
+          wyniki metod TOPSIS, VIKOR i WASPAS oraz pozycję alternatywy w rankingu według sumy pozycji (Borda),
+          reguły dominacji i końcowego konsensusu.
+        </p>
       </div>
       <div class="mt-5"><div class="overflow-x-auto rounded border border-zinc-800 bg-zinc-950/60"><table class="w-full min-w-[640px] border-collapse"><thead class="bg-zinc-900/90"><tr><th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">Uczelnia</th>
 <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-[0.18em] text-cyan-200">TOPSIS</th>
@@ -171,26 +263,119 @@
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">5</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">5</td>
 <td class="border-t border-zinc-800 px-4 py-3 text-sm text-zinc-100">5</td></tr></tbody></table></div></div>
-      <div class="mt-6 grid gap-4 lg:grid-cols-3"><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-topsis-1.png" alt="Mapa TOPSIS"></figure><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-vikor-1.png" alt="Mapa VIKOR"></figure><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-waspas-1.png" alt="Mapa WASPAS"></figure></div>
+      <div class="mt-8 mx-auto flex max-w-3xl flex-col gap-8"><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-topsis-1.png" alt="Mapa TOPSIS"></figure><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-vikor-1.png" alt="Mapa VIKOR"></figure><figure class="rounded border border-zinc-800 bg-zinc-950/70 p-3"><img class="w-full rounded border border-zinc-800 bg-white" src="man/figures/README-plot-waspas-1.png" alt="Mapa WASPAS"></figure></div>
     </section>
 
     <section id="odtworzenie" class="mt-8 rounded border border-zinc-800 bg-zinc-950 p-6">
       <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-cyan-300">Odtworzenie</p>
       <h2 class="text-2xl font-bold text-white">Instalacja i pełny poradnik</h2>
-      <pre class="mt-5 overflow-x-auto rounded border border-zinc-800 bg-black p-5 text-sm leading-6 text-zinc-100"><code>install.packages("remotes")
-
-remotes::install_github(
-  "nikolaw11/ErasmusMobilityR",
-  dependencies = TRUE,
-  build_vignettes = TRUE
-)
-
-browseVignettes("ErasmusMobilityR")
-vignette("poradnik_mcda", package = "ErasmusMobilityR")</code></pre>
+      <pre class="mt-5 overflow-x-auto rounded border border-zinc-800 bg-black p-5 text-sm leading-6 text-zinc-100">
+      <code>
+        # załadowanie pakietu
+        library(ErasmusMobilityR)
+      
+        # instalacja z poradnikiem
+        install.packages("remotes")
+        
+        remotes::install_github(
+          "nikolaw11/ErasmusMobilityR",
+          dependencies = TRUE,
+          build_vignettes = TRUE
+        )
+        
+        browseVignettes("ErasmusMobilityR")
+        vignette("poradnik_mcda", package = "ErasmusMobilityR")
+        
+        # wczytanie wbudowanych danych ankietowych
+        data("mcda_dane_surowe")
+        head(mcda_dane_surowe)
+        
+        # definicja modelu badawczego
+        skladnia_modelu_erasmus <- "
+        Finanse      =~ wysokosc_stypendium + koszty_zycia_mies;
+        Jakosc       =~ ranking_uczelni + kompatybilnosc_prog + ocena_biura_erasmus + jakosc_wykladowcow + dostepnosc_akademik;
+        Zadowolenie  =~ satysfakcja_program + spolecznosc_int;
+        Miasto       =~ odleglosc_od_macierzystej + bezpieczenstwo_miasta + atrakcyjnosc_miasta
+        "
+        
+        # przetwarzanie i rozmywanie danych
+        rozmyta_macierz_decyzyjna <- zbuduj_macierz_rozmyta(
+          dane = mcda_dane_surowe, 
+          skladnia = skladnia_modelu_erasmus, 
+          kolumna_uczelni = "Uczelnia"
+        )
+        
+        kierunki_erasmus <- c("max", "max", "max", "max")
+        kryteria_erasmus <- c("Finanse", "Jakosc", "Zadowolenie", "Miasto")
+        
+        # wyznaczanie wag metodą BWM (Best-Worst Method)
+        ankieta_best_to_others <- c(1, 2, 3, 8)
+        ankieta_others_to_worst <- c(8, 4, 2, 1)
+        
+        wyniki_bwm <- wyznacz_wagi_kryteriow_bwm(
+          nazwy_kryteriow = kryteria_erasmus,
+          najwazniejszy_vs_reszta = ankieta_best_to_others,
+          reszta_vs_najmniej_wazny = ankieta_others_to_worst
+        )
+        
+        print(round(wyniki_bwm$obliczone_wagi, 3))
+        print(paste("Wskaźnik Spójności CR:", round(wyniki_bwm$wskaznik_spojnosci_cr, 3)))
+        
+        # analiza decyzyjna (TOPSIS, VIKOR, WASPAS)
+        wyniki_topsis <- wyznacz_ranking_topsis(
+          rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+          kierunki_kryteriow = kierunki_erasmus,
+          nazwy_kryteriow_bwm = kryteria_erasmus,
+          bwm_najlepsze = ankieta_best_to_others,
+          bwm_najgorsze = ankieta_others_to_worst
+        )
+        
+        wyniki_vikor <- wyznacz_ranking_vikor(
+          rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+          kierunki_kryteriow = kierunki_erasmus,
+          nazwy_kryteriow_bwm = kryteria_erasmus,
+          bwm_najlepsze = ankieta_best_to_others,
+          bwm_najgorsze = ankieta_others_to_worst
+        )
+        
+        wyniki_waspas <- wyznacz_ranking_waspas(
+          rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+          kierunki_kryteriow = kierunki_erasmus,
+          nazwy_kryteriow_bwm = kryteria_erasmus,
+          bwm_najlepsze = ankieta_best_to_others,
+          bwm_najgorsze = ankieta_others_to_worst
+        )
+        
+        tabela_apa(wyniki_topsis)
+        tabela_apa(wyniki_vikor)
+        tabela_apa(wyniki_waspas)
+        
+        # wizualizacja
+        plot(wyniki_topsis)
+        plot(wyniki_vikor)
+        plot(wyniki_waspas)
+        
+        # metaranking
+        meta_wynik <- wyznacz_meta_ranking_erasmus(
+          rozmyta_macierz_decyzyjna = rozmyta_macierz_decyzyjna,
+          kierunki_kryteriow = kierunki_erasmus,
+          nazwy_kryteriow_bwm = kryteria_erasmus,
+          bwm_najlepsze = ankieta_best_to_others,
+          bwm_najgorsze = ankieta_others_to_worst
+        )
+        
+        tabela_apa(meta_wynik)
+        
+        # testowanie po regeneracji danych
+        # poniższe komendy wykonaj w terminalu systemowym
+        Rscript data-raw/generowanie_danych.R
+        Rscript data-raw/testowanie_paczki.R
+        Rscript tools/render-docs.R
+      </code></pre>
     </section>
   </main>
 
-  <footer class="mt-12 border-t border-zinc-800 bg-black px-4 py-8 text-center text-sm text-zinc-500">
+  <footer class="mt-12 border-t border-zinc-800 bg-black px-4 py-8 text-center text-sm text-zinc-400">
     Nikola Waliczek 2026
   </footer>
 
@@ -217,6 +402,37 @@ vignette("poradnik_mcda", package = "ErasmusMobilityR")</code></pre>
         plugins: { legend: { display: false } },
         scales: {
           y: { beginAtZero: true, grid, ticks: tick },
+          x: { grid: { display: false }, ticks: tick }
+        }
+      }
+    });
+    
+    new Chart(document.getElementById("fuzzyChart"), {
+      type: "line",
+      data: {
+        labels: [3, 4, 5, 6, 7, 8, 9],
+        datasets: [{
+          label: "Przynależność rozmyta (μ)",
+          data: [0, 0, 0, 1, 0, 0, 0],
+          fill: true,
+          backgroundColor: "rgba(103, 232, 249, 0.15)",
+          borderColor: "#67e8f9",
+          borderWidth: 2,
+          tension: 0,
+          pointBackgroundColor: "#000",
+          pointBorderColor: "#67e8f9",
+          pointRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { 
+          legend: { display: false },
+          tooltip: { callbacks: { label: (ctx) => `μ = ${ctx.raw}` } }
+        },
+        scales: {
+          y: { beginAtZero: true, max: 1.2, grid, ticks: { ...tick, stepSize: 0.5 } },
           x: { grid: { display: false }, ticks: tick }
         }
       }
