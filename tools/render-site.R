@@ -241,20 +241,20 @@ site_html <- paste0(
         <h2 class="text-lg font-bold text-white">Szybki odczyt wyniku</h2>
         <dl class="mt-5 space-y-4">
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Najlepsza alternatywa</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Najlepsza alternatywa</dt>
             <dd class="mt-1 text-3xl font-black text-cyan-200">', escape_html(top_school), '</dd>
           </div>
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Alternatywa najmniej rekomendowana</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Alternatywa najmniej rekomendowana</dt>
             <dd class="mt-1 text-3xl font-black text-red-400">', escape_html(worst_school), '</dd>
           </div>
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Stabilność rankingu</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Stabilność rankingu</dt>
             <dd class="mt-1 text-3xl font-black text-lime-200">', escape_html(stability), '</dd>
             <dd class="mt-1 text-sm text-zinc-400">minimalna korelacja Spearmana: ', fmt(min_cor, 2), '</dd>
           </div>
           <div>
-            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-500">Źródło</dt>
+            <dt class="text-xs uppercase tracking-[0.18em] text-zinc-400">Źródło</dt>
             <dd class="mt-1 text-sm leading-6 text-zinc-300">Wyniki są liczone podczas renderowania strony przez <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">tools/render-docs.R</code>.</dd>
           </div>
         </dl>
@@ -306,8 +306,8 @@ site_html <- paste0(
           <p class="mt-3 text-sm leading-6 text-zinc-300">
             Badając oceny studentów należy pamiętać o tym, że logika, którą posługują się ludzie, bliższa 
             jest logice rozmytej (zaimplementowanej w ErasmusMobilityR) niż logice zero-jedynkowej.
-            <strong class="text-white">Ocena studenta nie powinna być traktowana jako idealnie dokładna.</strong> Wobec 
-            tego, w pakiecie ErasmusMobilityR zastosowano <strong class="text-white">trójkątne liczby rozmyte (TFN)</strong>, które pozwalają na 
+            Ocena studenta nie powinna być traktowana jako idealnie dokładna. Wobec 
+            tego, w pakiecie ErasmusMobilityR zastosowano trójkątne liczby rozmyte (TFN), które pozwalają na 
             wzięcie pod uwagę niepewności oceny studenta.
             TFN wyrażane są za pomocą wzoru <code class="rounded bg-zinc-900 px-1 py-0.5 text-cyan-200">(l, m, u)</code>, gdzie 
             wartości oznaczają kolejno: wartość dolną, środkową i wyższą.
@@ -327,15 +327,20 @@ site_html <- paste0(
       <div class="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
         <div>
           <p class="mb-3 text-xs font-bold uppercase tracking-[0.22em] text-amber-300">Wyniki</p>
-          <h2 class="text-2xl font-bold text-white">Aktualny meta-ranking</h2>
+          <h2 class="text-2xl font-bold text-white">Aktualny metaranking</h2>
         </div>
-        <p class="max-w-2xl text-sm leading-6 text-zinc-400">Tabela poniżej jest generowana z obiektu <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">meta_wynik$porownanie</code>, więc aktualizuje się razem z README i vignette.</p>
+        <p class="max-w-2xl text-sm leading-6 text-zinc-400">Tabela poniżej jest generowana z 
+          obiektu <code class="rounded bg-zinc-900 px-1.5 py-0.5 text-cyan-200">
+          meta_wynik$porownanie</code>, więc aktualizuje się razem z README i vignette. Przedstawia
+          wyniki metod TOPSIS, VIKOR i WASPAS oraz pozycję alternatywy w rankingu według sumy pozycji (Borda),
+          reguły dominacji i końcowego konsensusu.
+        </p>
       </div>
       <div class="mt-5">', render_table(ranking_preview, numeric_digits = 0), '</div>
-      <div class="mt-6 grid gap-4 lg:grid-cols-3">',
-        render_plot("man/figures/README-plot-topsis-1.png", "Mapa TOPSIS"),
-        render_plot("man/figures/README-plot-vikor-1.png", "Mapa VIKOR"),
-        render_plot("man/figures/README-plot-waspas-1.png", "Mapa WASPAS"),
+      <div class="mt-8 mx-auto flex max-w-3xl flex-col gap-8">',
+      render_plot("man/figures/README-plot-topsis-1.png", "Mapa TOPSIS"),
+      render_plot("man/figures/README-plot-vikor-1.png", "Mapa VIKOR"),
+      render_plot("man/figures/README-plot-waspas-1.png", "Mapa WASPAS"),
       '</div>
     </section>
 
@@ -448,7 +453,7 @@ site_html <- paste0(
     </section>
   </main>
 
-  <footer class="mt-12 border-t border-zinc-800 bg-black px-4 py-8 text-center text-sm text-zinc-500">
+  <footer class="mt-12 border-t border-zinc-800 bg-black px-4 py-8 text-center text-sm text-zinc-400">
     Nikola Waliczek 2026
   </footer>
 
